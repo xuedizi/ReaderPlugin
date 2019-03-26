@@ -1,0 +1,9 @@
+include ':Support'
+Properties properties = new Properties()
+properties.load(new File(rootProject.projectDir,'local.properties').newDataInputStream())
+def apps = properties.getProperty('config').split(',')
+apps.each{ app ->
+  include ':' + app
+  println('插件: --> '+app)
+  project(':' + app).projectDir = new File(rootProject.projectDir, 'app/'+app)
+}
