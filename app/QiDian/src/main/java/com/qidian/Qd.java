@@ -211,10 +211,18 @@ public class Qd implements ISupport {
     return navigateItem;
   }
 
+  @Override public JSONArray getRecommendNovelsByName() {
+    return null;
+  }
+
   @Override public JSONArray getNavigateItem(String url) {
     Document dom = XpathHelper.getDom(url);
     JSONArray navigateItem = getNavigateItem(dom);
     return navigateItem;
+  }
+
+  @Override public JSONArray getNavigateItem(String url, int page) {
+    return null;
   }
 
   public JSONArray getNavigateItem(Document dom) {

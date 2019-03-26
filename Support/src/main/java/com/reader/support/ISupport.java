@@ -14,15 +14,11 @@ public interface ISupport {
 
   /**
    * 通过小说目录地址获取小说信息
-   * @param url
-   * @return
    */
   JSONObject getNovelInfoByUrl(String url);
 
   /**
    * 通过小说名获取小说信息
-   * @param name
-   * @return
    */
   JSONObject getNovelInfoByName(String name);
 
@@ -33,23 +29,31 @@ public interface ISupport {
 
   /**
    * 通过作者名搜索小说信息
-   * @param author
-   * @return
    */
   JSONArray getNovelInfoByAuthor(String author);
 
   /**
    * 获取小说站点导航栏内容
-   * @return
    */
   JSONArray getNavigateList();
 
   /**
    * 获取推荐小说
-   * @return
    */
   JSONArray getRecommendNovels();
 
+  /**
+   * 通过小说名获取推荐小说
+   */
+  JSONArray getRecommendNovelsByName();
+
+  /**
+   * 获取导航列表
+   */
   JSONArray getNavigateItem(String url);
 
+  /**
+   * 通过页数获取导航列表
+   */
+  JSONArray getNavigateItem(String url, int page);
 }

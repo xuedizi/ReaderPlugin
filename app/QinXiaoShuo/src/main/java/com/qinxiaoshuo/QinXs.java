@@ -228,7 +228,15 @@ public class QinXs implements ISupport {
     return null;
   }
 
+  @Override public JSONArray getRecommendNovelsByName() {
+    return null;
+  }
+
   @Override public JSONArray getNavigateItem(String url) {
+    return null;
+  }
+
+  @Override public JSONArray getNavigateItem(String url, int page) {
     return null;
   }
 

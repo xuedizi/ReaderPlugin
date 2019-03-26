@@ -231,6 +231,10 @@ public class Bq_Xin implements ISupport {
     return jsonArray;
   }
 
+  @Override public JSONArray getRecommendNovelsByName() {
+    return null;
+  }
+
   private JSONArray getLasterUpdateItem(Document dom) {
     NodeList nodeList =
         XpathHelper.getNodeList(dom, Bq_XinXpathUri.Xpath_Navigate_Laster_Update_Novel_Item);
@@ -323,6 +327,10 @@ public class Bq_Xin implements ISupport {
       }
     }
     return json;
+  }
+
+  @Override public JSONArray getNavigateItem(String url, int page) {
+    return null;
   }
 
   public static void main(String args[]) {

@@ -194,10 +194,18 @@ public class Zs implements ISupport {
     return navigateItem;
   }
 
+  @Override public JSONArray getRecommendNovelsByName() {
+    return null;
+  }
+
   @Override public JSONArray getNavigateItem(String url) {
     Document dom = XpathHelper.getDom(url);
     JSONArray jsonArray = getNavigateItem(dom);
     return jsonArray;
+  }
+
+  @Override public JSONArray getNavigateItem(String url, int page) {
+    return null;
   }
 
   private JSONArray getNavigateItem(Document dom) {

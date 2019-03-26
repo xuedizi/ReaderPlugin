@@ -206,6 +206,10 @@ public class Fy implements ISupport {
     return jsonArray;
   }
 
+  @Override public JSONArray getRecommendNovelsByName() {
+    return null;
+  }
+
   @Override public JSONArray getNavigateItem(String url) {
     Document dom = XpathHelper.getDom(url);
     JSONArray navigateItem = getNavigateItem(dom);
@@ -228,6 +232,10 @@ public class Fy implements ISupport {
       }
     }
     return json;
+  }
+
+  @Override public JSONArray getNavigateItem(String url, int page) {
+    return null;
   }
 
   private JSONArray getLasterUpdateItem(Document dom) {
