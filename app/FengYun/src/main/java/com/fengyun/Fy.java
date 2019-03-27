@@ -188,9 +188,9 @@ public class Fy implements ISupport {
       try {
         jsonObject.put(K.Navigate_Name, navNames.get(index));
         String path = navUrls.get(index);
-        if (null != path && !path.startsWith(Url.Url_Base)) {
-          path = Url.Url_Base + path;
-        }
+        //if (null != path && !path.startsWith(Url.Url_Base)) {
+        //  path = Url.Url_Base + path;
+        //}
         jsonObject.put(K.Navigate_Path, path);
         jsonArray.put(jsonObject);
       } catch (Exception e) {
