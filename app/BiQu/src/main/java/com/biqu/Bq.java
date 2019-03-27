@@ -48,7 +48,7 @@ public class Bq implements ISupport {
     //获取最后更新时间
     String lastModifiedStr = XpathHelper.get(dom, BqXpathUri.Xpath_novel_last_modified);
     long lastModified = getLastModified(lastModifiedStr);
-    String novelLogo = XpathHelper.get(dom, BqXpathUri.Xpath_novel_logo);
+    String novelLogo = BqUrl.Url_Base+XpathHelper.get(dom, BqXpathUri.Xpath_novel_logo);
     String novelIntroduction = XpathHelper.get(dom, BqXpathUri.Xpath_novel_introduction);
     JSONArray chapterCatalogues = new JSONArray();
     int len = chaptersTitle.size() > chaptersUrl.size() ? chaptersUrl.size() : chaptersTitle.size();
@@ -263,13 +263,13 @@ public class Bq implements ISupport {
       }
       String author = XpathHelper.get(item, BqXpathUri.Xpath_Navigate_Novel_Author);
       String logo = XpathHelper.get(item, BqXpathUri.Xpath_Navigate_Novel_Logo);
-      if (null != logo && !logo.startsWith(BqUrl.Url_Base)) {
-        logo = BqUrl.Url_Base + logo;
-      }
+      //if (null != logo && !logo.startsWith(BqUrl.Url_Base)) {
+      //  logo = BqUrl.Url_Base + logo;
+      //}
       String path = XpathHelper.get(item, BqXpathUri.Xpath_Navigate_Novel_Path);
-      if (null != path && !path.startsWith(BqUrl.Url_Base)) {
-        path = BqUrl.Url_Base + path;
-      }
+      //if (null != path && !path.startsWith(BqUrl.Url_Base)) {
+      //  path = BqUrl.Url_Base + path;
+      //}
       String name = XpathHelper.get(item, BqXpathUri.Xpath_Navigate_Novel_Name);
 
       try {
