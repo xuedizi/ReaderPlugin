@@ -282,11 +282,11 @@ public class Bq_Xin implements ISupport {
       String author = XpathHelper.get(item, Bq_XinXpathUri.Xpath_Navigate_Novel_Author);
       String logo = XpathHelper.get(item, Bq_XinXpathUri.Xpath_Navigate_Novel_Logo);
       if (null != logo && !logo.contains(Bq_XinUrl.Url_Domain)) {
-        logo = Bq_XinUrl.Url_Domain + logo;
+        logo = Bq_XinUrl.Url_Base + logo;
       }
       String path = XpathHelper.get(item, Bq_XinXpathUri.Xpath_Navigate_Novel_Path);
       if (null != path && !path.contains(Bq_XinUrl.Url_Domain)) {
-        path = Bq_XinUrl.Url_Domain + path;
+        path = Bq_XinUrl.Url_Base + path;
       }
       String name = XpathHelper.get(item, Bq_XinXpathUri.Xpath_Navigate_Novel_Name);
 
