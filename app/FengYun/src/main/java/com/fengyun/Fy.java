@@ -284,13 +284,13 @@ public class Fy implements ISupport {
       }
       String author = XpathHelper.get(item, XpathUri.Xpath_Navigate_Novel_Author);
       String logo = XpathHelper.get(item, XpathUri.Xpath_Navigate_Novel_Logo);
-      if (null != logo && !logo.startsWith(Url.Url_Base)) {
-        logo = Url.Url_Base + logo;
-      }
+      //if (null != logo && !logo.startsWith(Url.Url_Base)) {
+      //  logo = Url.Url_Base + logo;
+      //}
       String path = XpathHelper.get(item, XpathUri.Xpath_Navigate_Novel_Path);
-      if (null != path && !path.startsWith(Url.Url_Base)) {
-        path = Url.Url_Base + path;
-      }
+      //if (null != path && !path.startsWith(Url.Url_Base)) {
+      //  path = Url.Url_Base + path;
+      //}
       String name = XpathHelper.get(item, XpathUri.Xpath_Navigate_Novel_Name);
 
       try {
