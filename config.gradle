@@ -3,6 +3,6 @@ ext.android = [
     buildToolsVersion: "26.0.2",
     minSdkVersion: 16,
     targetSdkVersion: 22,
-    versionCode: 9,
-    versionName: "9.0",
+    versionCode: 12,
+    versionName: "1.2.0",
 ]
