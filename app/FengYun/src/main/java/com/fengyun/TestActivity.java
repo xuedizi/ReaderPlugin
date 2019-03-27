@@ -19,8 +19,8 @@ public class TestActivity extends Activity {
     final Fy qd = new Fy();
     new Thread(new Runnable() {
       @Override public void run() {
-        JSONArray result = qd.getNovelInfoByAuthor("天蚕土豆");
-        //JSONArray result = qd.getNavigateItem("https://www.fengyunok.com/sort_1_1.html");
+        //JSONArray result = qd.getNovelInfoByAuthor("天蚕土豆");
+        JSONArray result = qd.getNavigateItem("https://www.fengyunla.com/sort_1_1.html");
         //JSONArray result = qd.getNavigateList();
         //JSONArray result = qd.getRecommendNovels();
         //String s = qd.getChapterContent("http://www.fengyunok.com/142484/48752087.html").toString();
