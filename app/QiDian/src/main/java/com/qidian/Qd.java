@@ -115,12 +115,16 @@ public class Qd implements ISupport {
       JSONArray vsArray = data.optJSONArray("vs");
       for (int array = 0; array < vsArray.length(); array++) {
         JSONObject vs = vsArray.getJSONObject(array);
+        //是否是收费章节
+        boolean isFree = vs.optInt("vS") == 0;
         JSONArray cs = vs.optJSONArray("cs");
         for (int index = 0; index < cs.length(); index++) {
           JSONObject jsonObject = new JSONObject();
           JSONObject csJSONObject = cs.getJSONObject(index);
           try {
-            jsonObject.put(K.Catalogue_Path, QdUrl.Url_Chapter + csJSONObject.optString("cU"));
+            if (isFree) {
+              jsonObject.put(K.Catalogue_Path, QdUrl.Url_Chapter + csJSONObject.optString("cU"));
+            }
             jsonObject.put(K.Catalogue_Title, csJSONObject.optString("cN"));
             jsonArray.put(jsonObject);
           } catch (JSONException e) {
