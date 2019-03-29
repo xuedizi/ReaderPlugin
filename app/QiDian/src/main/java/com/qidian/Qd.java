@@ -215,9 +215,51 @@ public class Qd implements ISupport {
     return navigateItem;
   }
 
-  @Override public JSONArray getRecommendNovelsByName() {
+  @Override public JSONArray getRecommendNovelsByName(String novelName) {
+    //获取详情页信息
+    String searchResultUrl =
+        QdUrl.Url_Base_Http + XpathHelper.get(String.format(QdUrl.Url_Search, novelName),
+            QdXpathUri.Xpath_Search);
+    Document dom = XpathHelper.getDom(searchResultUrl);
+    NodeList nodeList = XpathHelper.getNodeList(dom, QdXpathUri.Xpath_Novel_Recommend);
+    if (null != nodeList) {
+      JSONArray jsonArray = new JSONArray();
+      for (int index = 0; index < nodeList.getLength(); index++) {
+        Node item = nodeList.item(index);
+        String logo =
+            QdUrl.Url_Base_Http + XpathHelper.get(item, QdXpathUri.Xpath_Novel_Recommend_Logo);
+        String name = XpathHelper.get(item, QdXpathUri.Xpath_Novel_Recommend_Name);
+        //String author = XpathHelper.get(item, QdXpathUri.Xpath_Navigate_Novel_Author);
+        //String intro = XpathHelper.get(item, QdXpathUri.Xpath_Navigate_Novel_Intro);
+        //String lastChapter = XpathHelper.get(item, QdXpathUri.Xpath_Navigate_Novel_Last_Chapter);
+        //if (!TextUtils.isEmpty(lastChapter) && lastChapter.contains(" ")) {
+        //  lastChapter = lastChapter.substring(lastChapter.indexOf(" ")).trim();
+        //}
+        //String lastModifedStr =
+        //    XpathHelper.get(item, QdXpathUri.Xpath_Navigate_Novel_Last_Modified);
+        //long lastModified = getLastModified(lastModifedStr);
+        String path =
+            QdUrl.Url_Base_Http + XpathHelper.get(item, QdXpathUri.Xpath_Novel_Recommend_Path);
+
+        JSONObject jsonObject = new JSONObject();
+        try {
+          jsonObject.put(K.Novel_Path, path);
+          jsonObject.put(K.Novel_Name, name);
+          jsonObject.put(K.Novel_logo, logo);
+          //jsonObject.put(K.Novel_last_chapter, "");
+          //jsonObject.put(K.Novel_last_modified, "");
+          //jsonObject.put(K.Novel_intro, "");
+          //jsonObject.put(K.Novel_Author, "");
+          jsonArray.put(jsonObject);
+        } catch (JSONException e) {
+
+        }
+      }
+      return jsonArray;
+    }
     return null;
   }
+
 
   @Override public JSONArray getNavigateItem(String url) {
     Document dom = XpathHelper.getDom(url);
@@ -226,7 +268,14 @@ public class Qd implements ISupport {
   }
 
   @Override public JSONArray getNavigateItem(String url, int page) {
-    return null;
+    if(TextUtils.isEmpty(url)){
+      return null;
+    }
+    //String pageUrl  = url.substring(0,url.length() - 1);
+    String pageUrl = url+"&page="+(++page);
+    Document dom = XpathHelper.getDom(pageUrl);
+    JSONArray navigateItem = getNavigateItem(dom);
+    return navigateItem;
   }
 
   public JSONArray getNavigateItem(Document dom) {
@@ -271,7 +320,7 @@ public class Qd implements ISupport {
 
   public static void main(String args[]) {
     Qd fy = new Qd();
-    String con = fy.getNovelInfoByName("武动乾坤").toString();
+//    String con = fy.getNovelInfoByName("武动乾坤").toString();
     //List<String> allChapterUrls = fy.getChaptersByNovelName("武动乾坤", 0, 2);
     //List<String> allChapterUrls = fy.getNovelInfoByUrl("http://www.baoliny.com/1/index.html");
   }

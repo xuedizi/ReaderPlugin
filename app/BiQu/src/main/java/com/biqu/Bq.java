@@ -213,7 +213,7 @@ public class Bq implements ISupport {
     return jsonArray;
   }
 
-  @Override public JSONArray getRecommendNovelsByName() {
+  @Override public JSONArray getRecommendNovelsByName(String novelName) {
     return null;
   }
 

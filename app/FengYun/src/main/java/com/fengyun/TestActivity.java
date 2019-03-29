@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
 import org.json.JSONArray;
+import org.json.JSONObject;
 
 /**
  * TODO
@@ -22,9 +23,10 @@ public class TestActivity extends Activity {
         //JSONArray result = qd.getNovelInfoByAuthor("天蚕土豆");
         //JSONArray result = qd.getNavigateItem("https://www.fengyunla.com/sort_1_1.html");
         //JSONArray result = qd.getNavigateList();
-        JSONArray result = qd.getRecommendNovels();
+        //JSONArray result = qd.getRecommendNovels();
         //String s = qd.getChapterContent("http://www.fengyunok.com/142484/48752087.html").toString();
-        //String novelInfoByNovelName = qd.getNovelInfoByName("无疆").toString();
+        JSONObject result = qd.getNovelInfoByName("三寸人间");
+
         Log.e("<Novel>", "-->> : " + result.toString());
       }
     }).start();

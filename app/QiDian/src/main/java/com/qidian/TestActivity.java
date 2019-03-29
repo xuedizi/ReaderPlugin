@@ -3,6 +3,7 @@ package com.qidian;
 import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
+import org.json.JSONArray;
 
 /**
  * TODO
@@ -24,10 +25,12 @@ public class TestActivity extends Activity {
         //JSONArray result = qd.getRecommendNovels();
         //String novelInfoByUrl =
         //    qd.getNovelInfoByUrl("https://book.qidian.com/info/1013573542").toString();
-        String result = qd.getNovelInfoByName("全球高武").toString();
+        //String result = qd.getNovelInfoByName("全球高武").toString();
         //Log.e("<Novel>", "-->> : " + novelInfoByNovelName);
         //JSONObject chapterContent = qd.getChapterContent(
         //    "https://read.qidian.com/chapter/ZRxfg5emqbE1/BRfIfMsWlcUex0RJOkJclQ2");
+        JSONArray result = qd.getRecommendNovelsByName("三寸人间");
+        //JSONArray result = qd.getNavigateItem("https://www.qidian.com/rank/yuepiao?style=1",1);
         Log.e("<Novel>", "-->> : " + result);
       }
     }).start();
