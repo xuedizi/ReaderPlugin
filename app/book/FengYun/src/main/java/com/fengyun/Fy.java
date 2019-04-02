@@ -202,17 +202,17 @@ public class Fy implements IBookSupport {
 
   @Override public JSONArray getRecommendNovels() {
     Document dom = XpathHelper.getDom(Url.Url_Base);
-    JSONArray jsonArray = getNavigateItem(dom);
+    JSONArray jsonArray = getNavigateItem(dom,2);//2:推荐
     return jsonArray;
   }
 
-  @Override public JSONArray getRecommendNovelsByName() {
+  @Override public JSONArray getRecommendNovelsByName(String novelName) {
     return null;
   }
 
   @Override public JSONArray getNavigateItem(String url) {
     Document dom = XpathHelper.getDom(url);
-    JSONArray navigateItem = getNavigateItem(dom);
+    JSONArray navigateItem = getNavigateItem(dom,1);//1:导航列表小说
     JSONArray lasterUpdateItem = getLasterUpdateItem(dom);
     JSONArray json = new JSONArray();
     if (null != navigateItem) {
@@ -266,7 +266,7 @@ public class Fy implements IBookSupport {
     return null;
   }
 
-  public JSONArray getNavigateItem(Document dom) {
+  public JSONArray getNavigateItem(Document dom,int type) {
     NodeList nodeList =
         XpathHelper.getNodeList(dom, XpathUri.Xpath_Navigate_Novel_Item);
     if (null == nodeList) return null;
@@ -284,13 +284,16 @@ public class Fy implements IBookSupport {
       }
       String author = XpathHelper.get(item, XpathUri.Xpath_Navigate_Novel_Author);
       String logo = XpathHelper.get(item, XpathUri.Xpath_Navigate_Novel_Logo);
-      if (null != logo && !logo.startsWith(Url.Url_Base)) {
-        logo = Url.Url_Base + logo;
-      }
       String path = XpathHelper.get(item, XpathUri.Xpath_Navigate_Novel_Path);
-      if (null != path && !path.startsWith(Url.Url_Base)) {
-        path = Url.Url_Base + path;
+      if(type ==1){//导航列表小说
+        if (null != logo && !logo.startsWith(Url.Url_Base)) {
+          logo = Url.Url_Base + logo;
+        }
+        if (null != path && !path.startsWith(Url.Url_Base)) {
+          path = Url.Url_Base + path;
+        }
       }
+
       String name = XpathHelper.get(item, XpathUri.Xpath_Navigate_Novel_Name);
 
       try {

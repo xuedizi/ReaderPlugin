@@ -45,7 +45,7 @@ public interface IBookSupport {
   /**
    * 通过小说名获取推荐小说
    */
-  JSONArray getRecommendNovelsByName();
+  JSONArray getRecommendNovelsByName(String novelName);
 
   /**
    * 获取导航列表

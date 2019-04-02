@@ -194,7 +194,7 @@ public class Zs implements IBookSupport {
     return navigateItem;
   }
 
-  @Override public JSONArray getRecommendNovelsByName() {
+  @Override public JSONArray getRecommendNovelsByName(String novelName) {
     return null;
   }
 
@@ -205,7 +205,14 @@ public class Zs implements IBookSupport {
   }
 
   @Override public JSONArray getNavigateItem(String url, int page) {
-    return null;
+    if(TextUtils.isEmpty(url)){
+      return null;
+    }
+    //String pageUrl  = url.substring(0,url.length() - 1);
+    String pageUrl = url+"&page="+(++page);
+    Document dom = XpathHelper.getDom(pageUrl);
+    JSONArray navigateItem = getNavigateItem(dom);
+    return navigateItem;
   }
 
   private JSONArray getNavigateItem(Document dom) {

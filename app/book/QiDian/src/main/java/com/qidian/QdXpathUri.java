@@ -64,4 +64,12 @@ public class QdXpathUri {
       "div[@class='book-mid-info']/p[@class='update']/span/text()";
   //导航小说条目内容
   public static final String Xpath_Navigate_Novel_Item = "//div[@class='book-img-text']/ul/li";
+  //小说详情页推荐小说
+  public static final String Xpath_Novel_Recommend = "//div[@class='like-more-list']/ul/li";
+  //推荐小说logo
+  public static final String Xpath_Novel_Recommend_Logo = "div[@class='book-img']/a/img/@data-original";
+  //推荐小说名称
+  public static final String Xpath_Novel_Recommend_Name = "div[@class='book-img']/a/img/@alt";
+  //推荐小说地址
+  public static final String Xpath_Novel_Recommend_Path = "div[@class='book-img']/a/@href";
 }

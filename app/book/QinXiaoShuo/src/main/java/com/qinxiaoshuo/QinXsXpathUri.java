@@ -39,4 +39,48 @@ public class QinXsXpathUri {
   //搜索结果链接列表
   public static final String Xpath_Novel_Search_Url_List = "//span[@class='s2']/a/@href";
 
+  //书名搜索结果
+  public static final String Xpath_Novel_Name_Search = "//div[@class='d_title']/h1/text()";
+
+
+  //匹配小说结果列表
+  public static final String Xpath_Search_Item = "//div[@id='sitebox']/dl";
+  //匹配小说结果小说名称
+  public static final String Xpath_Search_Name = "dt/a/mip-img/@alt";
+  //匹配小说结果小说地址
+  public static final String Xpath_Search_Path = "dt/a/@href";
+  //匹配小说结果小说logo
+  public static final String Xpath_Search_Logo = "dt/a/mip-img/@src";
+  //匹配小说结果小说作者
+  public static final String Xpath_Search_Author = "dd[@class='book_other']/span/text()";
+  //匹配小说结果小说介绍
+  public static final String Xpath_Search_Intro = "dd[@class='book_des']/text()";
+
+  //导航地址列表1
+  public static final String Xpath_Navigate_Url_List = "//div[@class='nav']/ul/li/a/@href";
+  //导航名称列表1
+  public static final String Xpath_Navigate_Name_List = "//div[@class='nav']/ul/li/a/text()";
+  //导航小说地址12
+  public static final String Xpath_Navigate_Novel_Path = "dt/a/@href";
+  //导航小说名称12
+  public static final String Xpath_Navigate_Novel_Name = "dt/a/mip-img/@alt";
+  //导航小说logo12
+  public static final String Xpath_Navigate_Novel_Logo = "dt/a/mip-img/@src";
+  //导航小说作者12
+  public static final String Xpath_Navigate_Novel_Author = "dd[@class='book_other']/span/text()";
+  //导航小说简介12
+  public static final String Xpath_Navigate_Novel_Intro = "dd[@class='book_des']/text()";
+  //导航小说条目内容1
+  public static final String Xpath_Navigate_Novel_Item = "//div[@id='sitebox']/dl";
+  //最近更新的小说列表
+  public static final String Xpath_Navigate_Laster_Update_Novel_Item = "//div[@id='newscontent']/div[@class='l']/ul/li";
+  //最近更新小说地址
+  public static final String Xpath_Navigate_Laster_Update_Novel_Path = "span[@class='s2']/a/@href";
+  //最近更新小说名称
+  public static final String Xpath_Navigate_Laster_Update_Novel_Name = "span[@class='s2']/a/text()";
+  //最近更新小说作者
+  public static final String Xpath_Navigate_Laster_Update_Novel_Author = "span[@class='s5']/text()";
+  //最近更新小说最新章节
+  public static final String Xpath_Navigate_Laster_Update_Novel_Laster_Chapter = "span[@class='s3']/a/text()";
+
 }

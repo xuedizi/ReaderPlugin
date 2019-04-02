@@ -226,7 +226,7 @@ public class Bq_Du implements IBookSupport {
     return jsonArray;
   }
 
-  @Override public JSONArray getRecommendNovelsByName() {
+  @Override public JSONArray getRecommendNovelsByName(String novelName) {
     return null;
   }
 

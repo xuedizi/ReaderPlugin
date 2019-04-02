@@ -231,7 +231,7 @@ public class Bq_Xin implements IBookSupport {
     return jsonArray;
   }
 
-  @Override public JSONArray getRecommendNovelsByName() {
+  @Override public JSONArray getRecommendNovelsByName(String novelName) {
     return null;
   }
 
