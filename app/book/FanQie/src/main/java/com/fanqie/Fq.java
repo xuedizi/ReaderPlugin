@@ -200,7 +200,7 @@ public class Fq implements IBookSupport {
     return jsonArray;
   }
 
-  @Override public JSONArray getRecommendNovelsByName() {
+  @Override public JSONArray getRecommendNovelsByName(String name) {
     return null;
   }
 

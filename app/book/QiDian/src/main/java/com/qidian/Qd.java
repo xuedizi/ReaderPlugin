@@ -243,9 +243,9 @@ public class Qd implements IBookSupport {
 
         JSONObject jsonObject = new JSONObject();
         try {
-          jsonObject.put(K.Novel_Path, path);
-          jsonObject.put(K.Novel_Name, name);
-          jsonObject.put(K.Novel_logo, logo);
+          jsonObject.put(BK.Novel_Path, path);
+          jsonObject.put(BK.Novel_Name, name);
+          jsonObject.put(BK.Novel_logo, logo);
           //jsonObject.put(K.Novel_last_chapter, "");
           //jsonObject.put(K.Novel_last_modified, "");
           //jsonObject.put(K.Novel_intro, "");
