@@ -17,6 +17,8 @@ import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.helper.HttpConnection;
 import org.w3c.dom.Document;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 /**
  * TODO
@@ -60,7 +62,9 @@ public class QinXs implements ISupport {
     for (int index = 0; index < len; index++) {
       JSONObject jsonObject = new JSONObject();
       try {
-        jsonObject.put(K.Catalogue_Path, QinXsUrl.Url_Base + chaptersUrl.get(index));
+        String chapterUrl = chaptersUrl.get(index);
+        chapterUrl = chapterUrl.substring(0,chapterUrl.lastIndexOf("/"));
+        jsonObject.put(K.Catalogue_Path, QinXsUrl.Url_Base + chapterUrl+"/#"+(index+1));
         jsonObject.put(K.Catalogue_Title, chaptersTitle.get(index));
         chapterCatalogues.put(jsonObject);
       } catch (JSONException e) {
@@ -114,15 +118,14 @@ public class QinXs implements ISupport {
     Document dom = XpathHelper.getDom(QinXsUrl.Url_Search+novelnameEdcode);
     String url = null;
     //判断是搜索列表页或小说结果页
-    List<String> titles = XpathHelper.getN(dom, QinXsXpathUri.Xpath_Novel_Search_Title_List);
-    List<String> urls = XpathHelper.getN(dom, QinXsXpathUri.Xpath_Novel_Search_Url_List);
+    String titles = XpathHelper.get(dom, QinXsXpathUri.Xpath_Novel_Name_Search);
+    //List<String> urls = XpathHelper.getN(dom, QinXsXpathUri.Xpath_Novel_Search_Url_List);
 
-    if (null != titles && !titles.isEmpty()) {
+    if (null != titles ) {
+
       //搜索结果列表类型
-      if (titles.contains(novelname)) {
-          url = QinXsUrl.Url_Search+novelnameEdcode;
-          dom = XpathHelper.getDom(url);
-      }
+      url = QinXsUrl.Url_Search+novelname;
+      dom = XpathHelper.getDom(url);
     } else {
       //搜索结果小说详情
       String title = XpathHelper.get(dom, QinXsXpathUri.Xpath_novel_name);
@@ -167,7 +170,7 @@ public class QinXs implements ISupport {
       // "https://static.qinxiaoshuo.com/book/bookdata/901/14.txt"
       chapterContentUrl = "https://static.qinxiaoshuo.com/book/bookdata/"+novelId+"/"+chapterNum+".txt";
     }
-     String chapterContent =null;
+    String chapterContent =null;
     try {
       if(!TextUtils.isEmpty(chapterContentUrl)){
         Connection connect = Jsoup.connect(chapterContentUrl).validateTLSCertificates(false);
@@ -176,11 +179,11 @@ public class QinXs implements ISupport {
         //HtmlCleaner htmlCleaner = new HtmlCleaner();
         //TagNode clean = htmlCleaner.clean(chapterContent);
         //Document dom = new DomSerializer(new CleanerProperties()).createDOM(clean);
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
-              chapterContent = Html
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+          chapterContent = Html
               .fromHtml(chapterContent, Html.FROM_HTML_MODE_LEGACY).toString();
         } else {
-              chapterContent = Html.fromHtml(chapterContent).toString();
+          chapterContent = Html.fromHtml(chapterContent).toString();
         }
       }
     }catch (Exception e){
@@ -217,27 +220,135 @@ public class QinXs implements ISupport {
   }
 
   @Override public JSONArray getNovelInfoByAuthor(String author) {
-    return null;
+    Document dom = XpathHelper.getDom(QinXsUrl.Url_Search+"search/?keyword="+author);
+    NodeList nodeList = XpathHelper.getNodeList(dom, QinXsXpathUri.Xpath_Search_Item);
+    if (null == nodeList) return null;
+    JSONArray jsonArray = new JSONArray();
+    for (int index = 0; index < nodeList.getLength(); index++) {
+      Node item = nodeList.item(index);
+      String path = QinXsUrl.Url_Base + XpathHelper.get(item, QinXsXpathUri.Xpath_Search_Path);
+      String name = XpathHelper.get(item, QinXsXpathUri.Xpath_Search_Name);
+      String logo = XpathHelper.get(item, QinXsXpathUri.Xpath_Search_Logo);
+      String authorName = XpathHelper.get(item, QinXsXpathUri.Xpath_Search_Author);
+      String intro = XpathHelper.get(item, QinXsXpathUri.Xpath_Search_Intro);
+      try {
+        jsonArray.put(new JSONObject().put(K.Novel_Path, path)
+            .put(K.Novel_Name, name)
+            .put(K.Novel_logo, logo)
+            .put(K.Novel_Author, authorName)
+            .put(K.Novel_intro, intro));
+      } catch (JSONException e) {
+      }
+    }
+    return jsonArray;
   }
 
   @Override public JSONArray getNavigateList() {
-    return null;
+    Document dom = XpathHelper.getDom(QinXsUrl.Url_Base);
+    List<String> navUrls = XpathHelper.getN(dom, QinXsXpathUri.Xpath_Navigate_Url_List);
+    List<String> navNames = XpathHelper.getN(dom, QinXsXpathUri.Xpath_Navigate_Name_List);
+    if (null == navNames || navUrls == null) return null;
+    JSONArray jsonArray = new JSONArray();
+    //删除需要登录的导航栏
+    for (int index = 0; index < navUrls.size(); index++) {
+      //过滤无用的导航
+      if (index == 0) continue;
+      if(index == 1)continue;
+      if(index ==navUrls.size()-1)continue;
+      JSONObject jsonObject = new JSONObject();
+      //首页单独处理
+      try {
+        jsonObject.put(K.Navigate_Name, navNames.get(index));
+        String path = navUrls.get(index);
+        if (null != path && !path.startsWith(QinXsUrl.Url_Base)) {
+          path = QinXsUrl.Url_Base + path;
+        }
+        jsonObject.put(K.Navigate_Path, path);
+        jsonArray.put(jsonObject);
+      } catch (Exception e) {
+        e.printStackTrace();
+      }
+    }
+    return jsonArray;
   }
 
   @Override public JSONArray getRecommendNovels() {
+    Document dom = XpathHelper.getDom(QinXsUrl.Url_Base);
+    JSONArray jsonArray = getNavigateItem(dom);
+    return jsonArray;
+  }
+
+  @Override public JSONArray getRecommendNovelsByName(String novelName) {
     return null;
   }
 
-  @Override public JSONArray getRecommendNovelsByName() {
-    return null;
+  public JSONArray getNavigateItem(Document dom) {
+    NodeList nodeList =
+        XpathHelper.getNodeList(dom, QinXsXpathUri.Xpath_Navigate_Novel_Item);
+    if (null == nodeList) return null;
+    JSONArray novels = new JSONArray();
+    for (int m = 0; m < nodeList.getLength(); m++) {
+      Node item = nodeList.item(m);
+      List<String> introList = XpathHelper.getN(item, QinXsXpathUri.Xpath_Navigate_Novel_Intro);
+      String intro = null;
+      if (null != introList) {
+        StringBuilder buffer = new StringBuilder();
+        for (String in : introList) {
+          buffer.append(in.replace("\n", ""));
+        }
+        intro = buffer.toString();
+      }
+      String author = XpathHelper.get(item, QinXsXpathUri.Xpath_Navigate_Novel_Author);
+      String logo = XpathHelper.get(item, QinXsXpathUri.Xpath_Navigate_Novel_Logo);
+      //if (null != logo && !logo.startsWith(QinXsUrl.Url_Base)) {
+      //  logo = logo;
+      //}
+      String path = XpathHelper.get(item, QinXsXpathUri.Xpath_Navigate_Novel_Path);
+      if (null != path && !path.startsWith(QinXsUrl.Url_Base)) {
+        path = QinXsUrl.Url_Base + path;
+      }
+      String name = XpathHelper.get(item, QinXsXpathUri.Xpath_Navigate_Novel_Name);
+
+      try {
+        JSONObject novelJ = new JSONObject();
+        novelJ.put(K.Novel_Name, name);
+        novelJ.put(K.Novel_Author, author);
+        novelJ.put(K.Novel_intro, intro);
+        novelJ.put(K.Novel_logo, logo);
+        novelJ.put(K.Novel_Path, path);
+        novels.put(novelJ);
+      } catch (JSONException e) {
+        e.printStackTrace();
+      }
+    }
+    return novels;
   }
 
   @Override public JSONArray getNavigateItem(String url) {
-    return null;
+    Document dom = XpathHelper.getDom(url);
+    JSONArray navigateItem = getNavigateItem(dom);
+    //JSONArray lasterUpdateItem = getLasterUpdateItem(dom);
+    JSONArray json = new JSONArray();
+    if (null != navigateItem) {
+      for (int index = 0; index < navigateItem.length(); index++) {
+        try {
+          json.put(navigateItem.getJSONObject(index));
+        } catch (JSONException e) {
+        }
+      }
+    }
+    return json;
   }
 
   @Override public JSONArray getNavigateItem(String url, int page) {
-    return null;
+    if(TextUtils.isEmpty(url)){
+      return null;
+    }
+    //String pageUrl  = url.substring(0,url.length() - 1);
+    String pageUrl = url+"/"+(++page)+".html";
+    Document dom = XpathHelper.getDom(pageUrl);
+    JSONArray navigateItem = getNavigateItem(dom);
+    return navigateItem;
   }
 
   public static void main(String args[]) {
