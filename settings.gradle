@@ -1,9 +1,25 @@
-include ':Support'
+include ':Support', ':BookSupport', ':PictureSupport'
 Properties properties = new Properties()
-properties.load(new File(rootProject.projectDir,'local.properties').newDataInputStream())
-def apps = properties.getProperty('config').split(',')
-apps.each{ app ->
-  include ':' + app
-  println('插件: --> '+app)
-  project(':' + app).projectDir = new File(rootProject.projectDir, 'app/'+app)
+properties.load(new File(rootProject.projectDir, 'local.properties').newDataInputStream())
+
+//书籍插件
+if (properties.containsKey('book.config')) {
+  def apps = properties.getProperty('book.config').split(',')
+  apps.each { app ->
+    include ':' + app
+    println('书籍插件: --> ' + app)
+    project(':' + app).projectDir = new File(rootProject.projectDir, 'app/book/' + app)
+  }
 }
+
+//图片插件
+if (properties.containsKey('picture.config')) {
+  def picApps = properties.getProperty('picture.config').split(',')
+  picApps.each { app ->
+    include ':' + app
+    println('图片插件: --> ' + app)
+    project(':' + app).projectDir = new File(rootProject.projectDir, 'app/picture/' + app)
+  }
+}
+
+

@@ -1,0 +1,60 @@
+apply plugin: 'com.android.application'
+
+def outputApkFile
+
+android {
+
+  compileSdkVersion rootProject.ext.android.compileSdkVersion
+  buildToolsVersion rootProject.ext.android.buildToolsVersion
+  defaultConfig {
+    minSdkVersion rootProject.ext.android.minSdkVersion
+    targetSdkVersion rootProject.ext.android.targetSdkVersion
+    applicationId 'com.reader.plugin.fengyun'
+    versionCode rootProject.ext.android.versionCode
+    versionName rootProject.ext.android.versionName
+    outputApkFile = "风云爬虫MOD-" + applicationId + "-" + versionCode + ".apk"
+  }
+
+  buildTypes {
+    release {
+      minifyEnabled false
+      proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+    }
+  }
+
+  applicationVariants.all { variant ->
+    variant.outputs.all { output ->
+      def outputFile = output.outputFile
+      if (outputFile != null && outputFile.name.endsWith('.apk')) {
+        if (variant.buildType.name == 'debug') {
+          outputFileName = outputApkFile
+          variant.packageApplication.outputDirectory = new File(project.rootDir, "release/")
+        }
+      }
+    }
+  }
+
+  project.afterEvaluate {
+    //在Release执行以后
+    tasks.forEach() {
+      println ' -----> all task:' + it
+      if (false && it.name.equalsIgnoreCase('assembleDebug')) {
+        it.doLast {
+          println(' ********************************** ' + System.getProperties().get("os.name") +
+              '*********************')
+          println(' --> 打包已完成，开始后续工作 ...')
+          task(copyMapping, type: Copy) {
+            from "${project.buildDir}/outputs/apk/debug/"
+            into "${project.rootDir}/release"
+            exclude "output.json"
+          }.execute()
+        }
+      }
+    }
+  }
+}
+
+dependencies {
+  implementation fileTree(dir: 'libs', include: ['*.jar'])
+  api project(':BookSupport')
+}
