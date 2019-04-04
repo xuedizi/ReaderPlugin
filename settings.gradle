@@ -1,4 +1,4 @@
-include ':Support', ':BookSupport', ':PictureSupport'
+include ':Support'
 Properties properties = new Properties()
 properties.load(new File(rootProject.projectDir, 'local.properties').newDataInputStream())
 
