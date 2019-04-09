@@ -4,20 +4,17 @@
   <application
       android:label="笔趣爬虫MOD">
     <meta-data
-        android:name="Default"
-        android:value="true"/>
-    <meta-data
         android:name="type"
-        android:value="reader-plugin"/>
+        android:value="${type}"/>
     <meta-data
         android:name="source"
-        android:value="biqu"/>
+        android:value="${source}"/>
     <meta-data
         android:name="priority"
-        android:value="4"/>
+        android:value="${priority}"/>
     <meta-data
         android:name="class"
-        android:value="com.biqu.Bq"/>
+        android:value="${class}"/>
 
     <activity android:name="com.biqu.TestActivity">
       <intent-filter>
